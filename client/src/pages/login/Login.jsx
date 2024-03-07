@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -24,9 +25,18 @@ const Login = () => {
     try {
       const res = await axios.post("/auth/login", credentials);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful',
+      });
       navigate("/")
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Error',
+        text: err.response.data.message,
+      });
     }
   };
 

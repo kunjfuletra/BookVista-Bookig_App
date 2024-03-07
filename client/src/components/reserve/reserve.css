@@ -7,6 +7,22 @@
       no-repeat;
   z-index: 99;
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Define styles for loader */
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.1); 
+  border-top: 4px solid #fff; 
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+  display: block;
+}
 .reserve {
   
     width: 100vw;

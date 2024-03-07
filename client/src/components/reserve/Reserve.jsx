@@ -9,11 +9,22 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useEffect } from "react";
+import Swal from 'sweetalert2';
 
 const Reserve = ({ setOpen, hotelId }) => {
+  const [loading3, setLoading3] = useState(false);
   const [selectedRooms, setSelectedRooms] = useState([]);
+  // const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
+  // console.log(data)
+  // const { data2, loading2, error2 } = useFetch(`/hotels/room/${hotelId}`);
+  // console.log(data2)
+
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
-  const {data2,loading2,error2} = useFetch(`hotels/find/65acc26b0199babc9445f923`);
+  console.log(data);
+  
+  const { data: data2, loading: loading2, error: error2 } = useFetch(`/hotels/find/${hotelId}`);
+  console.log(data2);
+
   const { dates } = useContext(SearchContext);
   const {user} = useContext(AuthContext);
 
@@ -58,6 +69,7 @@ const Reserve = ({ setOpen, hotelId }) => {
 
   const handleClick = async () => {
     try {
+      setLoading3(true);
       await Promise.all(
         selectedRooms.map((roomId) => {
           const res = axios.put(`/rooms/availability/${roomId}`, {
@@ -66,19 +78,26 @@ const Reserve = ({ setOpen, hotelId }) => {
           return res.data;
         })
       );
-      setOpen(false);
+      // setOpen(false);  
       
-      // const res2 = await axios.get(`/mail/sendmail?name=${user.username}&hotelname=${data2.name}`);
-      const res2 = await axios.get(`/mail/sendmail?name='kunj'&hotelname='taj'`)
+      const res2 = await axios.get(`/mail/sendmail?name=${user.username}&hotelname=${data2.name}`);
+      // const res2 = await axios.get(`/mail/sendmail?name='kunj'&hotelname='taj'`)
 
       
       if(res2){
-        alert("mail has been sent")
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration Successful',
+          text: 'Mail has been sent with reservation details'
+        });
       }
       
       navigate("/");
 
     } catch (err) {console.log(err);}
+    finally{
+      setLoading3(false);
+    }
   };
   return (
     <div className="reserve">
@@ -115,10 +134,12 @@ const Reserve = ({ setOpen, hotelId }) => {
           </div>
         ))}
         <button onClick={handleClick} className="rButton">
-          Reserve Now!
-          
+          {loading3 ? (
+            <div className="loader"></div>
+          ) : (
+            <span>Reserve Now!</span>
+          )}
         </button>
-        
       </div>
     </div>
   );
