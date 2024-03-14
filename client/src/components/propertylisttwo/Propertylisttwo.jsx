@@ -20,7 +20,7 @@ function Propertylisttwo() {
             />
             <span className="pltName">{item.name}</span>
             <span className="pltCity">{item.city}</span>
-            <span className="pltPrice">Starting from ${item.cheapestPrice}</span>
+            <span className="pltPrice">Starting from Rs.{item.cheapestPrice}</span>
             {item.rating && <div className="pltpRating">
               <button>{item.rating}</button>
               <span>Excellent</span>

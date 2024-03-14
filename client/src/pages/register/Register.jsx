@@ -44,7 +44,7 @@ const Register= () => {
       dispatch({ type: "REGISTER_SUCCESS", payload: res.data.details });
       Swal.fire({
         icon: 'success',
-        title: 'Registration Successful',
+        title: 'Booking Successful',
         text: res.data.details,
       });
 

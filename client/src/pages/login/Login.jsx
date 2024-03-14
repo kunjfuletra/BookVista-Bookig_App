@@ -27,7 +27,7 @@ const Login = () => {
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       Swal.fire({
         icon: 'success',
-        title: 'Registration Successful',
+        title: 'Login Successful',
       });
       navigate("/")
     } catch (err) {
